@@ -80,42 +80,41 @@ struct Node * InSucc(struct Node * p) {
     p = p -> lchild;
   return p;
 }
-struct Node * Delete(struct Node * p, int key) {
-  struct Node * q;
-  if (p == NULL)
-    return NULL;
-  if (p -> lchild == NULL && p -> rchild == NULL) {
-    if (p == root)
-      root = NULL;
-    delete p;
-    return NULL;
-
-  }
-  if (key < p -> data)
-    p -> lchild = Delete(p -> lchild, key);
-  else if (key > p -> data)
-    p -> rchild = Delete(p -> rchild, key);
-  else {
-    if (Height(p -> lchild) > Height(p -> rchild)) {
-      q = InPre(p -> lchild);
-      p -> data = q -> data;
-      p -> lchild = Delete(p -> lchild, q -> data);
-    } else {
-      q = InSucc(p -> rchild);
-      p -> data = q -> data;
-      p -> rchild = Delete(p -> rchild, q -> data);
+struct Node* Delete(struct Node* p, int key) {
+    struct Node* q;
+    if (p == NULL)
+        return NULL;
+    if (p->lchild == NULL && p->rchild == NULL) {
+        if (p == root)
+            root = NULL;
+        delete p;
+        return NULL;
     }
-
-  }
-  return p;
+    if (key < p->data)
+        p->lchild = Delete(p->lchild, key);
+    else if (key > p->data)
+        p->rchild = Delete(p->rchild, key);
+    else {
+        if (Height(p->lchild) > Height(p->rchild)) {
+            q = InPre(p->lchild);
+            p->data = q->data;
+            p->lchild = Delete(p->lchild, q->data);
+        } else {
+            q = InSucc(p->rchild);
+            p->data = q->data;
+            p->rchild = Delete(p->rchild, q->data);
+        }
+    }
+    return p;
 }
 int main() {
+  std::ios::sync_with_stdio(false);
   struct Node * temp;
   root = RInsert(root, 10);
   RInsert(root, 5);
-  Insert(20);
-  Insert(8);
-  Insert(30);
+  RInsert(root, 20);
+  RInsert(root, 8);
+  RInsert(root , 30);
   Delete(root, 20);
   inOrder(root);
   temp = Search(10);
